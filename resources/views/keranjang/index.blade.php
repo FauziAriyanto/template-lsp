@@ -1,11 +1,9 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight flex items-center gap-2">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"stroke="currentColor" class="size-6"><path stroke-linecap="round" stroke-linejoin="round"d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" /></svg>
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight flex items-center gap-2 ml-10">
             {{ __('Keranjang Belanja') }}
         </h2>
     </x-slot>
-
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -79,11 +77,7 @@
                                             @method('DELETE')
                                             <button type="button" onclick="openDeleteModal({{ $item->id }})"
                                                 class="text-red-600 hover:text-red-900" title="Hapus">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
-                                                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        d="M19 7L5 7M6 7l1 12a2 2 0 002 2h6a2 2 0 002-2l1-12M10 11v6M14 11v6M9 7V4a1 1 0 011-1h4a1 1 0 011 1v3" />
-                                                </svg>
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round"d="M19 7L5 7M6 7l1 12a2 2 0 002 2h6a2 2 0 002-2l1-12M10 11v6M14 11v6M9 7V4a1 1 0 011-1h4a1 1 0 011 1v3" /></svg>
                                             </button>
                                         </form>
                                     </td>
@@ -100,13 +94,8 @@
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300"
                                     colspan="9">
                                     <a href="{{ route('keranjang.create') }}"
-<<<<<<< HEAD
                                         class=" font-bold text-blue-600 hover:text-blue-900 ">
                                         Tambahkan produk ke keranjang belanja
-=======
-                                        class="text-blue-600 hover:text-blue-900 font-bold ">
-                                        + Tambahkan produk ke keranjang belanja
->>>>>>> e56e745e498c0eef4d60bd4158ad6f6b8ae1a39f
                                     </a>
                                 </td>
                             </tr>

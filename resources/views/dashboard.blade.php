@@ -2,10 +2,10 @@
     <x-slot name="header">
         <div class="flex justify-between items-center">
             <div>
-                <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+                <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight ml-10">
                 {{ __('Dashboard') }}
                 </h2>
-                <p class="text-gray-600 dark:text-gray-400">Hai, {{ Auth::user()->name }}!</p>
+                <p class="text-gray-600 dark:text-gray-400 ml-10">Hai, {{ Auth::user()->name }}!</p>
             </div>
             <div class="text-sm text-gray-600 dark:text-gray-400">
                 {{ \Carbon\Carbon::now()->format('d M Y, H:i') }}
