@@ -59,13 +59,13 @@
                                         {{ $item->produk->nama_produk }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
-                                        Rp {{ number_format($item->produk->harga, 0, ',', '.') }}
+                                        <span class="price-counter" data-target="{{ $item->produk->harga }}">Rp 0</span>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
                                         {{ $item->jumlah }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
-                                        Rp {{ number_format($item->total_harga, 0, ',', '.') }}
+                                        <span class="total-price-counter" data-target="{{ $item->total_harga }}">Rp 0</span>
                                     </td>
                                     <td
                                         class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300 flex items-center space-x-3">
@@ -106,7 +106,7 @@
                 <div
                     class="bg-neutral-200 dark:bg-gray-800 overflow-hidden shadow-lg sm:rounded-lg flex flex-col gap-4 h-full w-full md:w-[35%] p-4 border border-gray-200 dark:border-gray-700">
                     <p class="font-semibold text-lg text-gray-800 dark:text-gray-200 leading-loose text-nowrap">
-                        Total Harga: Rp {{ number_format($total_belanja, 0, ',', '.') }}
+                        Total Harga: <span id="totalBelanjaCounter">Rp 0</span>
                     </p>
 
                     <form action="{{ route('keranjang.checkout') }}" method="POST">
@@ -172,5 +172,62 @@
             modal.classList.remove('flex');
             modal.classList.add('hidden');
         }
+
+        // Animasi untuk counter harga
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animasi untuk harga produk dan total per item
+            const priceCounters = document.querySelectorAll('.price-counter, .total-price-counter');
+            const duration = 1000; // 1 detik animasi
+            const frameDuration = 1000 / 60; // 60 fps
+            
+            priceCounters.forEach(counter => {
+                const target = parseInt(counter.getAttribute('data-target'));
+                const start = 0;
+                const startTime = performance.now();
+                
+                const animate = (currentTime) => {
+                    const elapsedTime = currentTime - startTime;
+                    const progress = Math.min(elapsedTime / duration, 1);
+                    const currentValue = Math.floor(progress * target);
+                    
+                    // Format angka dengan titik sebagai pemisah ribuan
+                    const formattedValue = currentValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                    counter.textContent = `Rp ${formattedValue}`;
+                    
+                    if (progress < 1) {
+                        requestAnimationFrame(animate);
+                    }
+                };
+                
+                requestAnimationFrame(animate);
+            });
+
+            // Animasi untuk total belanja
+            const totalBelanja = {{ $total_belanja }};
+            const totalBelanjaElement = document.getElementById('totalBelanjaCounter');
+            const totalDuration = 1500; // 1.5 detik animasi
+            
+            if (totalBelanja > 0) {
+                const startTime = performance.now();
+                
+                const animateTotal = (currentTime) => {
+                    const elapsedTime = currentTime - startTime;
+                    const progress = Math.min(elapsedTime / totalDuration, 1);
+                    const currentValue = Math.floor(progress * totalBelanja);
+                    
+                    // Format angka dengan titik sebagai pemisah ribuan
+                    const formattedValue = currentValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                    totalBelanjaElement.textContent = `Rp ${formattedValue}`;
+                    
+                    if (progress < 1) {
+                        requestAnimationFrame(animateTotal);
+                    }
+                };
+                
+                requestAnimationFrame(animateTotal);
+            } else {
+                totalBelanjaElement.textContent = 'Rp 0';
+            }
+        });
     </script>
 </x-app-layout>

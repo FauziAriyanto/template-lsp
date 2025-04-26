@@ -57,7 +57,7 @@
                                         </td>
                                         <td
                                             class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
-                                            Rp {{ number_format($transaksi->total_harga, 0, ',', '.') }}
+                                            <span class="price-counter" data-target="{{ $transaksi->total_harga }}">Rp 0</span>
                                         </td>
                                         <td
                                             class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
@@ -150,5 +150,34 @@
             modal.classList.remove('flex');
             modal.classList.add('hidden');
         }
+
+        // Animasi untuk counter harga
+        document.addEventListener('DOMContentLoaded', function() {
+            const counters = document.querySelectorAll('.price-counter');
+            const duration = 1200; // 1 detik animasi
+            const frameDuration = 1000 / 60; // 60 fps
+            
+            counters.forEach(counter => {
+                const target = parseInt(counter.getAttribute('data-target'));
+                const start = 0;
+                const startTime = performance.now();
+                
+                const animate = (currentTime) => {
+                    const elapsedTime = currentTime - startTime;
+                    const progress = Math.min(elapsedTime / duration, 1);
+                    const currentValue = Math.floor(progress * target);
+                    
+                    // Format angka dengan titik sebagai pemisah ribuan
+                    const formattedValue = currentValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                    counter.textContent = `Rp ${formattedValue}`;
+                    
+                    if (progress < 1) {
+                        requestAnimationFrame(animate);
+                    }
+                };
+                
+                requestAnimationFrame(animate);
+            });
+        });
     </script>
 </x-app-layout>

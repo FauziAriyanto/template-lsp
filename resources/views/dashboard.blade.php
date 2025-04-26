@@ -22,7 +22,9 @@
 
             <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow text-center">
                 <div class="text-lg text-gray-600 dark:text-gray-300">Total Pendapatan</div>
-                <div class="text-3xl font-bold text-green-500 mt-2">Rp {{ number_format($totalPendapatan, 0, ',', '.') }}</div>
+                <div class="text-3xl font-bold text-green-500 mt-2">
+                    <span id="totalPendapatanCounter">Rp 0</span>
+                </div>
             </div>
 
             <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow text-center">
@@ -31,4 +33,32 @@
             </div>
         </div>
     </div>
+
+    {{-- Script JavaScript untuk animasi counter --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Data pendapatan dari PHP
+            const totalPendapatan = {{ $totalPendapatan }};
+            const duration = 1500; // Durasi animasi dalam milidetik (1.5 detik)
+            const startTime = performance.now();
+            const counterElement = document.getElementById('totalPendapatanCounter');
+            
+            function animatePendapatan(currentTime) {
+                const elapsedTime = currentTime - startTime;
+                const progress = Math.min(elapsedTime / duration, 1);
+                const currentValue = Math.floor(progress * totalPendapatan);
+                
+                // Format angka dengan titik sebagai pemisah ribuan
+                const formattedValue = currentValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                counterElement.textContent = `Rp ${formattedValue}`;
+                
+                if (progress < 1) {
+                    requestAnimationFrame(animatePendapatan);
+                }
+            }
+            
+            // Mulai animasi
+            requestAnimationFrame(animatePendapatan);
+        });
+    </script>
 </x-app-layout>
